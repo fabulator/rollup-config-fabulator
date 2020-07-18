@@ -1,0 +1,40 @@
+{
+  "name": "rollup-config-fabulator",
+  "version": "0.1.0",
+  "description": "Fabulator default rollup config",
+  "keywords": [
+    "rollup",
+    "rollup-config",
+    "rollupconfig"
+  ],
+  "homepage": "https://github.com/fabulator/rollup-config-fabulator",
+  "bugs": {
+    "url": "https://github.com/fabulator/rollup-config-fabulator/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabulator/rollup-config-fabulator.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Michal Ozogán <michal@ozogan.eu>",
+  "main": "./src/index.js",
+  "scripts": {
+    "lint": "eslint ./ --ext .js --ext .json",
+    "lint:fix": "npm run lint -- --fix",
+    "release": "semantic-release"
+  },
+  "dependencies": {
+    "@rollup/plugin-babel": "^5.1.0",
+    "rollup": "^2.22.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-serve": "^1.0.2"
+  },
+  "devDependencies": {
+    "commitlint-config-fabulator": "^1.0.0",
+    "eslint-config-fabulator": "^1.0.0",
+    "semantic-release-config-fabulator": "^2.5.0"
+  }
+}
