@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.1.0 (2021-07-18)
+### Changed
+- [5b1bb75](https://github.com/fabulator/rollup-config-fabulator/commit/5b1bb753a8a099572b2a9e58b37bb452dfd39564) Update dependencies
+
 ## v1.0.0 (2020-07-18)
 ### Fixed
 - [5f5c638](https://github.com/fabulator/rollup-config-fabulator/commit/5f5c6389a8e39e43eca350e964c6408eb16a0711) npm package ignore
