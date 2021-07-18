@@ -24,17 +24,17 @@
     "release": "semantic-release"
   },
   "dependencies": {
-    "@rollup/plugin-babel": "^5.1.0",
-    "rollup": "^2.22.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "rollup": "^2.53.2",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-serve": "^1.0.2"
+    "rollup-plugin-serve": "^1.1.0"
   },
   "devDependencies": {
-    "commitlint-config-fabulator": "^1.0.0",
-    "eslint-config-fabulator": "^1.0.0",
-    "semantic-release-config-fabulator": "^2.5.0"
+    "commitlint-config-fabulator": "^2.0.1",
+    "eslint-config-fabulator": "^1.2.2",
+    "semantic-release-config-fabulator": "^2.6.2"
   }
 }
