@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.2.11 (2022-03-21)
+### Fixed
+- [8f5a509](https://github.com/fabulator/rollup-config-fabulator/commit/8f5a509590d32f65afe3894520452b669192d3a0) Update lock to make security bots happy.
+
 ## v1.2.10 (2022-03-14)
 ### Fixed
 - [73e54b7](https://github.com/fabulator/rollup-config-fabulator/commit/73e54b7f609e6bf9ee90deac05bda92107084a93) Update lock to make security bots happy.
