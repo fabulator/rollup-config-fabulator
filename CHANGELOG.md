@@ -1,6 +1,24 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 (2022-08-20)
+### Changed
+- [daa453a](https://github.com/fabulator/rollup-config-fabulator/commit/daa453adc20b15b3bd343101c036634171eb4dbf) Update dependency rollup-plugin-serve to v2 BREAKING (#40)
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+- [4c2f4d2](https://github.com/fabulator/rollup-config-fabulator/commit/4c2f4d26e18a0b85418e19361a82773b3258e5f3) Update dev dependency commitlint-config-fabulator to v3  (#14)
+
+Co-authored-by: Renovate Bot <bot@renovateapp.com>
+- [2758ddb](https://github.com/fabulator/rollup-config-fabulator/commit/2758ddbd6658ce76f6e8e9e8d2bea669e8cf3e45) Update dev dependency semantic-release-config-fabulator to v3  (#15)
+
+Co-authored-by: Renovate Bot <bot@renovateapp.com>
+- [9c6cfa2](https://github.com/fabulator/rollup-config-fabulator/commit/9c6cfa2ac3b3d4495fda3b7ef6ae695c9b4d5c4c) Update Github Flow  actions/setup-node action to v3
+
+Co-authored-by: Renovate Bot <bot@renovateapp.com>
+- [c4d4443](https://github.com/fabulator/rollup-config-fabulator/commit/c4d4443a5227ee1fbd90bf153d51645e1b7db6f6) Update actions/checkout action to v3 (#23)
+
+Co-authored-by: Renovate Bot <bot@renovateapp.com>
+
 ## v1.2.13 (2022-03-28)
 ### Fixed
 - [adfb69c](https://github.com/fabulator/rollup-config-fabulator/commit/adfb69cbbc7e5665b38b5e599457a8b104adc577) Update lock to make security bots happy.
