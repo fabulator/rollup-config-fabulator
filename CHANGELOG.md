@@ -1,6 +1,19 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.1.0 (2024-04-29)
+### Changed
+- [ffde4ee](https://github.com/fabulator/rollup-config-fabulator/commit/ffde4eeb35c2ed659cfc8fe3f82ba9d5b41c8cab) Update dependency node to v12.22.12
+- [5838f39](https://github.com/fabulator/rollup-config-fabulator/commit/5838f39a82a1ddbcfa0c2ffa7a1c17494c4fc639) Update dev dependency semantic-release-config-fabulator to v5  (#54)
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+- [900f250](https://github.com/fabulator/rollup-config-fabulator/commit/900f250eaa29746d632aee6874a129a0db3e6b31) Update dev dependency semantic-release-config-fabulator to v4  (#52)
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+- [4752b06](https://github.com/fabulator/rollup-config-fabulator/commit/4752b06b83d6486cae9890182b707c14f3a2d710) Update dev dependency commitlint-config-fabulator to v5  (#51)
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+
 ## v2.0.0 (2022-08-20)
 ### Changed
 - [daa453a](https://github.com/fabulator/rollup-config-fabulator/commit/daa453adc20b15b3bd343101c036634171eb4dbf) Update dependency rollup-plugin-serve to v2 BREAKING (#40)
