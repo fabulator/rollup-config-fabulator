@@ -1,3 +1,3 @@
-module.exports = {
-    extends: ['fabulator'],
+export default {
+  extends: ['fabulator'],
 };

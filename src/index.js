@@ -1,115 +1,118 @@
-const fs = require('fs');
-const path = require('path');
-const babel = require('@rollup/plugin-babel').default;
-const resolve = require('rollup-plugin-node-resolve');
-const serve = require('rollup-plugin-serve');
-const replaceDist = require('rollup-plugin-replace');
-const commonjs = require('rollup-plugin-commonjs');
-const json = require('rollup-plugin-json');
+import fs from 'node:fs';
+import path from 'node:path';
+import commonjs from '@rollup/plugin-commonjs';
+import json from '@rollup/plugin-json';
+import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+import serve from 'rollup-plugin-serve';
+import { babel } from './babel.js';
+import { checkDependencies } from './check-dependencies.js';
 
 const supportedExtensions = ['.js', '.jsx', '.ts', '.tsx'];
 
-function getConfig(file, settings = {}) {
-    const destinationDir = path.parse(file.replace('src', 'dist')).dir;
-    const destinationEs = path.parse(file.replace('src', 'es')).dir;
+/**
+ * Rollup config for libraries. Outputs CommonJS to `dist` and ES modules to `es`, dependencies stay external.
+ *
+ * @param {string} file entry file, e.g. `./src/index.ts`
+ * @param {object} [settings] Rollup options merged over the defaults
+ * @param {object} [options]
+ * @param {boolean} [options.polyfills=false] keep core-js polyfills injected by the Babel config,
+ *   the library then has to list `core-js` in its dependencies
+ */
+export function getConfig(file, settings = {}, { polyfills = false } = {}) {
+  const destinationDir = path.parse(file.replace('src', 'dist')).dir;
+  const destinationEs = path.parse(file.replace('src', 'es')).dir;
 
-    return {
-        treeshake: {
-            propertyReadSideEffects: false,
-            moduleSideEffects: 'no-external',
+  return {
+    treeshake: {
+      propertyReadSideEffects: false,
+      // external imports are side-effect free, except core-js polyfills (`import 'core-js/modules/…'`)
+      // which would be silently dropped
+      moduleSideEffects: (id, external) =>
+        !external || (polyfills && /^core-js(\/|$)/.test(id)),
+    },
+    input: file,
+    output: [
+      {
+        dir: destinationDir,
+        format: 'cjs',
+        freeze: false,
+        preserveModules: true,
+      },
+      {
+        dir: destinationEs,
+        format: 'es',
+        freeze: false,
+        preserveModules: true,
+      },
+    ],
+    plugins: [
+      babel({
+        extensions: supportedExtensions,
+        polyfills,
+      }),
+      resolve({
+        modulesOnly: true,
+        // bare imports resolve from `src`, packages from node_modules stay external
+        moduleDirectories: ['src'],
+        extensions: supportedExtensions,
+      }),
+      json(),
+      checkDependencies(),
+    ],
+    ...settings,
+  };
+}
+
+/**
+ * Rollup config for a development build with a dev server on port 8080.
+ * Bundles dependencies into a single ES module for modern browsers.
+ *
+ * @param {string} file entry file
+ */
+export function getDevelopConfig(file) {
+  const base = getConfig(file);
+  const destinationFile = file
+    .replace(/dev/, '/build/')
+    .replace(/\.(tsx|ts)$/, '.js');
+
+  fs.copyFileSync(
+    path.resolve(import.meta.dirname, '..', 'assets', 'index.html'),
+    path.resolve(path.parse(destinationFile).dir, 'index.html'),
+  );
+
+  return {
+    ...base,
+    plugins: [
+      replace({
+        preventAssignment: true,
+        values: {
+          'process.env.NODE_ENV': JSON.stringify('production'),
         },
-        input: file,
-        output: [
-            {
-                dir: destinationDir,
-                format: 'cjs',
-                freeze: false,
-                preserveModules: true,
-            },
-            {
-                dir: destinationEs,
-                format: 'es',
-                freeze: false,
-                preserveModules: true,
-            },
-        ],
-        plugins: [
-            babel({
-                exclude: 'node_modules/**',
-                extensions: supportedExtensions,
-                babelHelpers: 'runtime',
-            }),
-            resolve({
-                modulesOnly: true,
-                customResolveOptions: {
-                    moduleDirectory: 'src',
-                },
-                extensions: supportedExtensions,
-            }),
-            json(),
-        ],
-        ...settings,
-    };
+      }),
+      commonjs({
+        include: /node_modules/,
+      }),
+      resolve({
+        browser: true,
+        extensions: supportedExtensions,
+      }),
+      babel({
+        extensions: supportedExtensions,
+      }),
+      // the server starts as soon as the plugin is created and keeps the process alive,
+      // so only in watch mode (`rollup -c -w`), a one-off build finishes
+      ...(process.env.ROLLUP_WATCH === 'true'
+        ? [serve({ contentBase: 'build', port: 8080 })]
+        : []),
+    ],
+    output: [
+      {
+        file: destinationFile,
+        // loaded by <script type="module"> in assets/index.html
+        format: 'es',
+        freeze: false,
+      },
+    ],
+  };
 }
-
-function getDevelopConfig(file) {
-    const base = getConfig(file);
-    const destinationFile = file.replace(/dev/, '/build/').replace(/\.(tsx|ts)$/, '.js');
-
-    fs.copyFileSync(path.resolve(__dirname, '..', 'assets', 'index.html'), path.resolve(path.parse(destinationFile).dir, 'index.html'));
-
-    return {
-        ...base,
-        plugins: [
-            replaceDist({
-                'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            commonjs({
-                include: 'node_modules/**',
-                namedExports: {
-                    'node_modules/react/index.js': [
-                        'Children',
-                        'Component',
-                        'PureComponent',
-                        'PropTypes',
-                        'createElement',
-                        'Fragment',
-                        'cloneElement',
-                        'StrictMode',
-                        'createFactory',
-                        'createRef',
-                        'createContext',
-                        'isValidElement',
-                        'isValidElementType',
-                        'forwardRef',
-                    ],
-                    'node_modules/react-dom/index.js': ['render', 'hydrate'],
-                },
-            }),
-            resolve({
-                browser: true,
-                extensions: supportedExtensions,
-            }),
-            babel({
-                exclude: 'node_modules/**',
-                extensions: supportedExtensions,
-            }),
-            serve({
-                contentBase: 'build',
-                port: 8080,
-            }),
-        ],
-        output: [
-            {
-                file: destinationFile,
-                format: 'cjs',
-                freeze: false,
-            },
-        ],
-    };
-}
-
-module.exports = {
-    getConfig,
-    getDevelopConfig,
-};
