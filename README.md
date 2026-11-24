@@ -38,4 +38,5 @@ or `optionalDependencies` of the library (e.g. `@babel/runtime` helpers or `core
 
 ## Development build
 
-`getDevelopConfig('./dev/index.tsx')` bundles everything including dependencies to `build` and serves it on port 8080.
+`getDevelopConfig('./dev/index.tsx')` bundles everything including dependencies into a single ES module in `build`,
+loaded by `build/index.html` via `<script type="module">`. In watch mode (`rollup -c -w`) it also serves `build` on port 8080.

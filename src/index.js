@@ -65,7 +65,8 @@ export function getConfig(file, settings = {}, { polyfills = false } = {}) {
 }
 
 /**
- * Rollup config for a development build with a dev server on port 8080. Bundles dependencies.
+ * Rollup config for a development build with a dev server on port 8080.
+ * Bundles dependencies into a single ES module for modern browsers.
  *
  * @param {string} file entry file
  */
@@ -99,15 +100,17 @@ export function getDevelopConfig(file) {
       babel({
         extensions: supportedExtensions,
       }),
-      serve({
-        contentBase: 'build',
-        port: 8080,
-      }),
+      // the server starts as soon as the plugin is created and keeps the process alive,
+      // so only in watch mode (`rollup -c -w`), a one-off build finishes
+      ...(process.env.ROLLUP_WATCH === 'true'
+        ? [serve({ contentBase: 'build', port: 8080 })]
+        : []),
     ],
     output: [
       {
         file: destinationFile,
-        format: 'cjs',
+        // loaded by <script type="module"> in assets/index.html
+        format: 'es',
         freeze: false,
       },
     ],

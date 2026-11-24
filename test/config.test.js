@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import path from 'node:path';
 import { test } from 'node:test';
 import { rollup } from 'rollup';
-import { getConfig } from '../src/index.js';
+import { getConfig, getDevelopConfig } from '../src/index.js';
 
 const fixtures = path.join(import.meta.dirname, 'fixtures');
 
@@ -80,5 +81,39 @@ test('library build with polyfills imports core-js declared in dependencies', as
       imports.some((id) => id.startsWith('core-js/modules/es.iterator')),
       'core-js polyfills are imported',
     );
+  }
+});
+
+test('develop build bundles an ES module for the browser', async (t) => {
+  process.chdir(path.join(fixtures, 'library'));
+  fs.mkdirSync('build', { recursive: true });
+  t.after(() => fs.rmSync('build', { recursive: true, force: true }));
+
+  const { output, ...input } = getDevelopConfig('./dev/index.ts');
+
+  assert.ok(
+    !input.plugins.some(({ name }) => name === 'serve'),
+    'dev server runs only in watch mode',
+  );
+
+  const bundle = await rollup({ ...input, onwarn: () => {} });
+
+  try {
+    const { output: chunks } = await bundle.generate(output[0]);
+
+    assert.equal(chunks.length, 1, 'bundles into a single file');
+    assert.equal(chunks[0].fileName, 'index.js');
+    assert.doesNotMatch(
+      chunks[0].code,
+      /\brequire\(|\bexports\./,
+      'no CommonJS',
+    );
+    assert.match(
+      fs.readFileSync('build/index.html', 'utf8'),
+      /<script type="module" src="index.js">/,
+      'index.html loads the bundle as a module',
+    );
+  } finally {
+    await bundle.close();
   }
 });
