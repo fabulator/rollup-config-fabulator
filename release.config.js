@@ -1,3 +1,3 @@
-module.exports = {
-    extends: 'semantic-release-config-fabulator',
+export default {
+  extends: 'semantic-release-config-fabulator',
 };

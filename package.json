@@ -13,28 +13,47 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabulator/rollup-config-fabulator.git"
+    "url": "git+https://github.com/fabulator/rollup-config-fabulator.git"
   },
   "license": "Apache-2.0",
   "author": "Michal Ozogán <michal@ozogan.eu>",
-  "main": "./src/index.js",
+  "type": "module",
+  "exports": "./src/index.js",
+  "files": [
+    "src",
+    "assets"
+  ],
+  "engines": {
+    "node": "^22.18.0 || >=24.11.0"
+  },
   "scripts": {
-    "lint": "eslint ./ --ext .js --ext .json",
+    "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
+    "test": "node --test test/*.test.js",
+    "prepare": "husky",
     "release": "semantic-release"
   },
   "dependencies": {
-    "@rollup/plugin-babel": "^5.3.0",
-    "rollup": "^2.53.2",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-replace": "^2.2.0",
-    "rollup-plugin-serve": "^2.0.1"
+    "@rollup/plugin-commonjs": "^29.0.3",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-replace": "^6.0.3",
+    "@rollup/pluginutils": "^5.5.1",
+    "rollup": "^4.68.8",
+    "rollup-plugin-serve": "^3.0.0"
+  },
+  "peerDependencies": {
+    "@babel/core": "^8.1.3"
   },
   "devDependencies": {
-    "commitlint-config-fabulator": "^5.0.0",
-    "eslint-config-fabulator": "^1.2.2",
-    "semantic-release-config-fabulator": "^5.0.0"
+    "@babel/core": "^8.1.3",
+    "@babel/runtime": "^8.1.3",
+    "babel-config-fabulator": "^2.0.0",
+    "commitlint-config-fabulator": "^6.1.0",
+    "eslint": "^10.15.0",
+    "eslint-config-fabulator": "^6.0.1",
+    "husky": "^9.1.7",
+    "semantic-release-config-fabulator": "^8.0.1",
+    "typescript": "~6.0.3"
   }
 }

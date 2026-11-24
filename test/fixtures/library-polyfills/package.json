@@ -1,0 +1,8 @@
+{
+  "name": "fixture-library-polyfills",
+  "private": true,
+  "dependencies": {
+    "@babel/runtime": "*",
+    "core-js": "*"
+  }
+}

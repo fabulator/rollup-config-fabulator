@@ -1,21 +1,13 @@
-name: Build
+name: CI
 
 on: [push]
 
+permissions:
+    contents: read
+    id-token: write # npm trusted publishing (OIDC) - npm validates this file (main.yml), not the shared workflow
+
 jobs:
     build:
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js 16.x
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16.20.2
-            - name: NPM Build and Test
-              run: |
-                  npm ci
-                  npm run lint
-                  npm run release
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GHUB_BOT_TOKEN }}
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        uses: fabulator/workflows/.github/workflows/npm-package.yml@v1
+        secrets:
+            release-token: ${{ secrets.GHUB_BOT_TOKEN }}
