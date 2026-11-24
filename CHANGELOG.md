@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v3.0.0 (2026-11-24)
+### Changed
+- [1f97072](https://github.com/fabulator/rollup-config-fabulator/commit/1f97072deea567bc1ae9bf64dddb0449b4bba962) Update Github Flow  dependency node to v16.20.2 (#193)
+
+Co-authored-by: renovate[bot] <29139614+renovate[bot]@users.noreply.github.com>
+
 ## v2.1.0 (2024-04-29)
 ### Changed
 - [ffde4ee](https://github.com/fabulator/rollup-config-fabulator/commit/ffde4eeb35c2ed659cfc8fe3f82ba9d5b41c8cab) Update dependency node to v12.22.12
