@@ -54,6 +54,6 @@
     "eslint-config-fabulator": "^6.1.0",
     "husky": "^9.1.7",
     "semantic-release-config-fabulator": "^8.0.1",
-    "typescript": "~6.0.3"
+    "typescript": "~7.0.2"
   }
 }
